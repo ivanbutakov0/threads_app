@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-.cl-organizationSwitcherTrigger .cl-userPreview .cl-userPreviewTextContainer {
-	@apply max-sm:hidden;
+@layer components {
+	/* Onboarding Container */
+	.onboarding {
+		@apply max-w-3xl mx-auto px-9 py-20 text-white flex flex-col gap-4;
+	}
+
+	/* Head Text */
+	.head-text {
+		@apply text-3xl font-bold;
+	}
+
+	/* Account Form */
+
+	.account-form_input {
+		@apply bg-dark-3 border border-dark-4 text-base !important;
+	}
 }
 
 @layer utilities {
@@ -25,4 +39,14 @@
 	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
 		background: #7878a3;
 	}
+}
+
+/* Shadcn style */
+.no-focus {
+	@apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+}
+
+/* Clerk Responsive fix */
+.cl-organizationSwitcherTrigger .cl-userPreview .cl-userPreviewTextContainer {
+	@apply max-sm:hidden;
 }
