@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import User from '../models/user.model'
 import { connectToDatabase } from '../mongoose'
 
@@ -9,6 +10,7 @@ interface UpdateUserParams {
 	username: string
 	bio: string
 	image: string
+	path: string
 }
 export const UpdateUser = async ({
 	UserId,
@@ -16,6 +18,7 @@ export const UpdateUser = async ({
 	username,
 	bio,
 	image,
+	path,
 }: UpdateUserParams): Promise<void> => {
 	try {
 		connectToDatabase()
@@ -33,6 +36,10 @@ export const UpdateUser = async ({
 				upsert: true,
 			}
 		)
+
+		if (path === '/profile/edit') {
+			revalidatePath(path)
+		}
 	} catch (err: any) {
 		throw new Error(`Failed to create/update user: ${err.message}`)
 	}

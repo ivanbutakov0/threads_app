@@ -11,11 +11,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { UpdateUser } from '@/lib/actions/user.actions'
 import { useUploadThing } from '@/lib/uploadthing'
 import { isBase64Image } from '@/lib/utils'
 import { UserValidation } from '@/lib/validations/user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -34,6 +36,8 @@ interface Props {
 const AccountProfile = ({ user }: Props) => {
 	const [files, setFiles] = useState<File[]>([])
 	const { startUpload } = useUploadThing('media')
+	const path = usePathname()
+	const router = useRouter()
 
 	const form = useForm<z.infer<typeof UserValidation>>({
 		resolver: zodResolver(UserValidation),
@@ -82,7 +86,20 @@ const AccountProfile = ({ user }: Props) => {
 			}
 		}
 
-		// TODO: connect to DB
+		await UpdateUser({
+			UserId: user.id,
+			bio: values.bio,
+			name: values.name,
+			username: values.username,
+			image: values.profile_photo,
+			path: path,
+		})
+
+		if (path === '/profile/edit') {
+			router.back()
+		} else {
+			router.push('/')
+		}
 	}
 
 	return (
