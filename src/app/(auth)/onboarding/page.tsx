@@ -1,15 +1,15 @@
 import AccountProfile from '@/components/forms/AccountProfile'
 import { FetchUser } from '@/lib/actions/user.actions'
 import { currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 const Page = async () => {
 	const user = await currentUser()
 	if (!user) return null // To await typescript error
 
 	const userInfo = await FetchUser(user.id)
-	console.log(userInfo)
 
-	// if (userInfo?.onboarded) redirect('/')
+	if (userInfo?.onboarded) redirect('/')
 
 	const userData = {
 		id: user?.id,
