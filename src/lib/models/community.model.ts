@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
-const { Schema } = mongoose
 
-const userSchema = new Schema({
+const communitySchema = new mongoose.Schema({
 	id: {
 		type: String,
 		required: true,
@@ -23,17 +22,15 @@ const userSchema = new Schema({
 			ref: 'Thread',
 		},
 	],
-	onboarded: {
-		type: Boolean,
-		default: false,
-	},
-	communities: [
+	members: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Community',
+			ref: 'User',
 		},
 	],
 })
 
-const User = mongoose.models.User || mongoose.model('User', userSchema)
-export default User
+const Community =
+	mongoose.models.Community || mongoose.model('Community', communitySchema)
+
+export default Community

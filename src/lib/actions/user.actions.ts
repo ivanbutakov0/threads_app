@@ -1,8 +1,22 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import Community from '../models/community.model'
 import User from '../models/user.model'
 import { connectToDatabase } from '../mongoose'
+
+export const FetchUser = async (UserId: string) => {
+	try {
+		connectToDatabase()
+
+		return await User.findOne({ id: UserId }).populate({
+			path: 'communities',
+			model: Community,
+		})
+	} catch (err: any) {
+		throw new Error(`Failed to fetch user: ${err.message}`)
+	}
+}
 
 interface UpdateUserParams {
 	UserId: string
