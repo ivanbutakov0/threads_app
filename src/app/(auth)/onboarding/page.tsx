@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 const Page = async () => {
 	const user = await currentUser()
-	if (!user) return null // To await typescript error
+	if (!user) return null // To avoid typescript error
 
 	const userInfo = await FetchUser(user.id)
 

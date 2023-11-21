@@ -1,12 +1,20 @@
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
+import CreateThread from '@/components/forms/CreateThread'
+import { FetchUser } from '@/lib/actions/user.actions'
+import { currentUser } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
-const Page = () => {
+const Page = async () => {
+	const user = await currentUser()
+	if (!user) return null // To avoid typescript error
+
+	const userInfo = await FetchUser(user.id)
+	if (!userInfo.onboarded) redirect('/onboarding')
+
 	return (
-		<div className='grid w-full gap-2'>
-			<Textarea placeholder='Type your message here.' />
-			<Button>Send message</Button>
-		</div>
+		<>
+			<h1 className='head-text mb-10'>Create Thread</h1>
+			<CreateThread userId={userInfo._id} />
+		</>
 	)
 }
 export default Page

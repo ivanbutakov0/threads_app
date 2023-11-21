@@ -10,7 +10,7 @@
 
 	/* Head Text */
 	.head-text {
-		@apply text-3xl font-bold;
+		@apply text-3xl font-bold text-white;
 	}
 
 	/* Account Form */
