@@ -72,7 +72,7 @@ const ThreadCard = ({
 					isComment={isComment}
 				/>
 			</div>
-			<div>
+			<div className='flex items-center gap-2 pl-2 mt-4'>
 				{comments.length > 0 &&
 					comments
 						.slice(0, 2)
@@ -81,15 +81,16 @@ const ThreadCard = ({
 								src={comment.author.image}
 								key={index}
 								alt={`user_${index} image`}
-								width={20}
-								height={20}
+								width={24}
+								height={24}
+								className='object-contain'
 							/>
 						))}
 				{comments.length > 0 && (
 					<Link href={`/thread/${id}`}>
-						<p>
+						<p className='text-gray-500 text-xs'>
 							{comments.length}
-							repl
+							{' repl'}
 							{comments.length > 2 ? 'ies' : 'y'}
 						</p>
 					</Link>
