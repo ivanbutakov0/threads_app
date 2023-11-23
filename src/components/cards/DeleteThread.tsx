@@ -19,8 +19,8 @@ const DeleteThread = ({ currentUserId, authorId, isComment }: Props) => {
 		<Image
 			src='/delete.svg'
 			alt='delete thread'
-			width={24}
-			height={24}
+			width={20}
+			height={20}
 			className={'absolute top-3 right-3 cursor-pointer'}
 			onClick={() => {
 				// TODO: delete thread

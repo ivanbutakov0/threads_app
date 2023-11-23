@@ -38,8 +38,16 @@ const ThreadCard = ({
 	isComment,
 }: ThreadCardProps) => {
 	return (
-		<article className='w-full bg-dark-2 p-7 rounded-lg'>
-			<div className='flex gap-4 relative'>
+		<article
+			className={`${
+				isComment ? 'bg-transparent p-0 max-h-fit mb-[-15px]' : ''
+			} bg-dark-2 w-full  p-7 rounded-lg`}
+		>
+			<div
+				className={`${
+					isComment ? 'min-h-[130px]' : ''
+				} flex gap-4 relative h-full`}
+			>
 				<div className='flex flex-col items-center'>
 					<Link href={`/profile/${author.id}`}>
 						<Image src={author.image} alt='user image' width={44} height={44} />
@@ -64,6 +72,16 @@ const ThreadCard = ({
 						<Image src='/repost.svg' alt='like-image' width={24} height={24} />
 						<Image src='/share.svg' alt='like-image' width={24} height={24} />
 					</div>
+
+					{isComment && comments.length > 0 && (
+						<Link href={`/thread/${id}`}>
+							<p className='text-gray-500 text-xs pt-2 pb-8'>
+								{comments.length}
+								{' repl'}
+								{comments.length > 1 ? 'ies' : 'y'}
+							</p>
+						</Link>
+					)}
 				</div>
 
 				<DeleteThread
@@ -72,8 +90,9 @@ const ThreadCard = ({
 					isComment={isComment}
 				/>
 			</div>
-			<div className='flex items-center gap-2 pl-2 mt-4'>
-				{comments.length > 0 &&
+			<div className='flex items-center gap-2 pl-1 mt-4'>
+				{!isComment &&
+					comments.length > 0 &&
 					comments
 						.slice(0, 2)
 						.map((comment, index) => (
@@ -83,15 +102,15 @@ const ThreadCard = ({
 								alt={`user_${index} image`}
 								width={24}
 								height={24}
-								className='object-contain'
+								className={`object-contain ${index > 0 && 'ml-[-20px]'}`}
 							/>
 						))}
-				{comments.length > 0 && (
+				{!isComment && comments.length > 0 && (
 					<Link href={`/thread/${id}`}>
 						<p className='text-gray-500 text-xs'>
 							{comments.length}
 							{' repl'}
-							{comments.length > 2 ? 'ies' : 'y'}
+							{comments.length > 1 ? 'ies' : 'y'}
 						</p>
 					</Link>
 				)}
