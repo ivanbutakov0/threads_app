@@ -91,7 +91,7 @@ export const fetchThreadById = async (id: string) => {
 	try {
 		connectToDatabase()
 
-		return await Thread.findById(id)
+		const thread = await Thread.findById(id)
 			.populate({
 				path: 'author',
 				model: User,
@@ -121,6 +121,9 @@ export const fetchThreadById = async (id: string) => {
 					},
 				],
 			})
+			.exec()
+
+		return thread
 	} catch (err: any) {
 		throw new Error(`Failed to fetch thread: ${err.message}`)
 	}
@@ -146,11 +149,8 @@ export const addCommentToThread = async (
 			parentId: threadId,
 		})
 
-		console.log('commentThread', commentThread)
-
 		// Save the new comment thread to the db
 		const savedCommentThread = await commentThread.save()
-		console.log('savedCommentThread', savedCommentThread)
 
 		// Add the comment to the original thread's children array
 		originalThread.children.push(savedCommentThread._id)

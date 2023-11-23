@@ -15,7 +15,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 	if (!userInfo.onboarded) redirect('/onboarding')
 
 	const thread = await fetchThreadById(params.id)
-	console.log(thread)
+
 	return (
 		<section className='flex flex-col gap-10'>
 			<div>
