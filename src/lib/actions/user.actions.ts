@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import Community from '../models/community.model'
+import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectToDatabase } from '../mongoose'
 
@@ -56,5 +57,41 @@ export const UpdateUser = async ({
 		}
 	} catch (err: any) {
 		throw new Error(`Failed to create/update user: ${err.message}`)
+	}
+}
+
+export const fetchUserThreads = async (userId: string) => {
+	try {
+		connectToDatabase()
+
+		const threads = await User.findOne({ id: userId }).populate({
+			path: 'threads',
+			model: Thread,
+			populate: [
+				{
+					path: 'author',
+					model: User,
+					select: 'name image id',
+				},
+				{
+					path: 'community',
+					model: Community,
+					select: 'name id image _id',
+				},
+				{
+					path: 'children',
+					model: Thread,
+					populate: {
+						path: 'author',
+						model: User,
+						select: 'name image id',
+					},
+				},
+			],
+		})
+
+		return threads
+	} catch (err: any) {
+		throw new Error(`Failed to fetch user threads: ${err.message}`)
 	}
 }

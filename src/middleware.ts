@@ -8,7 +8,7 @@ export default authMiddleware({
 	publicRoutes: [
 		'/api/webhook/clerk',
 		'/api/uploadthing',
-		'/thread/655c7c1e49dc9e3f8fbd9f16',
+		'/profile/user_2YP22ufS1OPX3WKZcJ9UF2cIUJv',
 	],
 
 	// An array of routes to be ignored by the authentication middleware.

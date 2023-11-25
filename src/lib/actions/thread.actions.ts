@@ -158,6 +158,12 @@ export const addCommentToThread = async (
 		// Save original thread
 		await originalThread.save()
 
+		await User.findByIdAndUpdate(userId, {
+			$push: {
+				threads: savedCommentThread,
+			},
+		})
+
 		revalidatePath(path)
 	} catch (err: any) {
 		throw new Error(`Failed to add comment to thread: ${err.message}`)

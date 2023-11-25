@@ -1,19 +1,23 @@
 'use client'
 
 import { sidebarLinks } from '@/constants'
-import { SignOutButton, SignedIn } from '@clerk/nextjs'
+import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const LeftSidebar = () => {
 	const pathname = usePathname()
+	const router = useRouter()
+	const { userId } = useAuth()
 
 	return (
 		<section className='custom-scrollbar sticky h-screen left-0 top-0 pt-28 w-fit bg-dark-2 overflow-auto max-md:hidden border-r border-dark-4 flex flex-col justify-between pb-5'>
 			<div className='flex flex-col  justify-between w-full gap-6 px-6'>
 				{sidebarLinks.map(link => {
 					const isActive = pathname === link.route
+
+					if (link.route === '/profile') link.route = `/profile/${userId}`
 					return (
 						<Link
 							href={link.route}
@@ -36,7 +40,7 @@ const LeftSidebar = () => {
 
 			<div className='px-6 '>
 				<SignedIn>
-					<SignOutButton>
+					<SignOutButton signOutCallback={() => router.push('/sign-in')}>
 						<div className='flex cursor-pointer p-4 gap-4'>
 							<Image
 								src='/logout.svg'
