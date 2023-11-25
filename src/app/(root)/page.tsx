@@ -9,7 +9,7 @@ export default async function Home() {
 	if (!user) return null // To avoid typescript error
 
 	const userInfo = await FetchUser(user.id)
-	if (!userInfo.onboarded) redirect('/onboarding')
+	if (!userInfo?.onboarded) redirect('/onboarding')
 
 	const result = await FetchThreads(1, 30)
 

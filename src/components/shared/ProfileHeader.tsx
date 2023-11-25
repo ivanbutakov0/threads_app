@@ -22,7 +22,13 @@ const ProfileHeader = ({
 		<div className='text-white flex flex-col gap-5 pb-10 border-b-2 border-dark-3'>
 			<div className='flex justify-between items-center'>
 				<div className='flex gap-2 items-center'>
-					<Image src={image} alt='profile image' width={80} height={80} />
+					<Image
+						className='rounded-full object-cover'
+						src={image}
+						alt='profile image'
+						width={80}
+						height={80}
+					/>
 					<div>
 						<p className='text-2xl font-semibold'>{name}</p>
 						<p className='text-gray-500'>@{username}</p>

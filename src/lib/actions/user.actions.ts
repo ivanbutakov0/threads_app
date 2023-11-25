@@ -1,5 +1,6 @@
 'use server'
 
+import { FilterQuery, SortOrder } from 'mongoose'
 import { revalidatePath } from 'next/cache'
 import Community from '../models/community.model'
 import Thread from '../models/thread.model'
@@ -93,5 +94,56 @@ export const fetchUserThreads = async (userId: string) => {
 		return threads
 	} catch (err: any) {
 		throw new Error(`Failed to fetch user threads: ${err.message}`)
+	}
+}
+
+export const fetchUsers = async ({
+	userId,
+	searchString = '',
+	pageNumber = 1,
+	pageSize = 20,
+	orderBy = 'desc',
+}: {
+	userId: string
+	searchString?: string
+	pageNumber?: number
+	pageSize?: number
+	orderBy?: SortOrder
+}) => {
+	try {
+		connectToDatabase()
+
+		// Calculate the number of users to skip based on the page number and page size.
+		const skipAmount = (pageNumber - 1) * pageSize
+
+		const regex = new RegExp(searchString, 'i')
+
+		const query: FilterQuery<typeof User> = {
+			id: { $ne: userId },
+		}
+
+		if (searchString.trim() !== '') {
+			query.$or = [{ name: regex }, { username: regex }]
+		}
+
+		const sortOption = {
+			createdAt: orderBy,
+		}
+
+		const users = await User.find(query)
+			.sort(sortOption)
+			.skip(skipAmount)
+			.limit(pageSize)
+
+		const totalUsers = await User.countDocuments(query)
+
+		const isNext = skipAmount + users.length < totalUsers
+
+		return {
+			users,
+			isNext,
+		}
+	} catch (err: any) {
+		throw new Error(`Failed to fetch users: ${err.message}`)
 	}
 }
