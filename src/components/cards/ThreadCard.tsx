@@ -50,7 +50,13 @@ const ThreadCard = ({
 			>
 				<div className='flex flex-col items-center'>
 					<Link href={`/profile/${author.id}`}>
-						<Image src={author.image} alt='user image' width={44} height={44} />
+						<Image
+							src={author.image}
+							className='rounded-full object-cover'
+							alt='user image'
+							width={44}
+							height={44}
+						/>
 					</Link>
 					<div className='relative mt-2 w-0.5 grow rounded-full bg-neutral-800'></div>
 				</div>
@@ -102,7 +108,9 @@ const ThreadCard = ({
 								alt={`user_${index} image`}
 								width={24}
 								height={24}
-								className={`object-contain ${index > 0 && 'ml-[-20px]'}`}
+								className={`rounded-full object-contain ${
+									index > 0 && 'ml-[-20px]'
+								}`}
 							/>
 						))}
 				{!isComment && comments.length > 0 && (
