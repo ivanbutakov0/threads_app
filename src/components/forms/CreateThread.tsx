@@ -12,6 +12,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { CreateThreadAction } from '@/lib/actions/thread.actions'
 import { ThreadValidation } from '@/lib/validations/thread'
+import { useOrganization } from '@clerk/nextjs'
 import { usePathname, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -22,6 +23,7 @@ interface Props {
 const CreateThread = ({ userId }: Props) => {
 	const pathname = usePathname()
 	const router = useRouter()
+	const { organization } = useOrganization()
 
 	const form = useForm<z.infer<typeof ThreadValidation>>({
 		defaultValues: {
@@ -34,7 +36,7 @@ const CreateThread = ({ userId }: Props) => {
 		await CreateThreadAction({
 			text: values.thread,
 			author: values.accountId,
-			communityId: null,
+			communityId: organization ? organization.id : null,
 			path: pathname,
 		})
 

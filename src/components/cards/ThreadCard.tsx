@@ -1,3 +1,4 @@
+import { formatDateString } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import DeleteThread from './DeleteThread'
@@ -120,6 +121,26 @@ const ThreadCard = ({
 							{' repl'}
 							{comments.length > 1 ? 'ies' : 'y'}
 						</p>
+					</Link>
+				)}
+			</div>
+			<div className=''>
+				{!isComment && community && (
+					<Link
+						href={`/communities/${community.id}`}
+						className='flex items-center gap-2'
+					>
+						<p className='text-gray-500 text-xs'>
+							{formatDateString(createdAt)} - {community.name} Community
+						</p>
+						<div className='relative h-6 w-6'>
+							<Image
+								src={community.image}
+								alt='community image'
+								fill
+								className='rounded-full object-cover'
+							/>
+						</div>
 					</Link>
 				)}
 			</div>

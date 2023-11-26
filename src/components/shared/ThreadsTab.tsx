@@ -1,3 +1,4 @@
+import { fetchCommunityPosts } from '@/lib/actions/community.actions'
 import ThreadCard from '../cards/ThreadCard'
 import { UserThreads } from './ProfileTabs'
 
@@ -33,9 +34,9 @@ interface Result {
 interface Props {
 	currentUserId: string
 	accountId: string
-	tab: string
+	tab?: 'Threads' | 'Replies'
 	accountType: 'User' | 'Community'
-	userThreads: UserThreads
+	userThreads?: UserThreads
 }
 
 const ThreadsTab = async ({
@@ -49,14 +50,13 @@ const ThreadsTab = async ({
 	let parentThreads: Thread[] | undefined
 
 	if (accountType === 'Community') {
-		// TODO: fetch community threads (change fetchUserThreads to fetchCommunityThreads)
-		console.log('community')
+		parentThreads = (await fetchCommunityPosts(accountId)).threads
 	} else {
 		// choose only threads that have parentId (so they are replies to threads)
-		repliesThreads = userThreads.threads.filter(thread => thread['parentId'])
+		repliesThreads = userThreads?.threads.filter(thread => thread['parentId'])
 
 		// choose parent threads
-		parentThreads = userThreads.threads.filter(thread => !thread['parentId'])
+		parentThreads = userThreads?.threads.filter(thread => !thread['parentId'])
 	}
 
 	return (

@@ -22,12 +22,17 @@ export const CreateThreadAction = async ({
 	try {
 		connectToDatabase()
 
+		const communityIdObject = await Community.findOne(
+			{ id: communityId },
+			{ _id: 1 }
+		)
+
 		// TODO: Add community functionality
 
 		const createdThread = await Thread.create({
 			text,
 			author,
-			community: null,
+			community: communityIdObject,
 		})
 
 		// Update user
@@ -36,6 +41,14 @@ export const CreateThreadAction = async ({
 				threads: createdThread._id,
 			},
 		})
+
+		if (communityIdObject) {
+			await Community.findByIdAndUpdate(communityIdObject, {
+				$push: {
+					threads: createdThread._id,
+				},
+			})
+		}
 
 		revalidatePath(path)
 	} catch (err: any) {
