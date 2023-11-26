@@ -13,7 +13,6 @@ const Page = async () => {
 
 	// get activity
 	const activity = await getActivity(userInfo._id)
-	console.log(activity)
 	return (
 		<section>
 			<h1 className='head-text mb-10'>Activity</h1>
