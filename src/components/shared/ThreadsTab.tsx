@@ -34,7 +34,7 @@ interface Result {
 interface Props {
 	currentUserId: string
 	accountId: string
-	tab?: 'Threads' | 'Replies'
+	tab?: string
 	accountType: 'User' | 'Community'
 	userThreads?: UserThreads
 }
