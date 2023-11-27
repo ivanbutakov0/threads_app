@@ -1,15 +1,24 @@
 'use client'
 
+import { deleteThread } from '@/lib/actions/thread.actions'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 interface Props {
+	threadId: string
 	currentUserId: string
 	authorId: string
+	parentId: string | null
 	isComment?: boolean
 }
 
-const DeleteThread = ({ currentUserId, authorId, isComment }: Props) => {
+const DeleteThread = ({
+	threadId,
+	currentUserId,
+	authorId,
+	parentId,
+	isComment,
+}: Props) => {
 	const pathname = usePathname()
 	const router = useRouter()
 
@@ -22,10 +31,11 @@ const DeleteThread = ({ currentUserId, authorId, isComment }: Props) => {
 			width={20}
 			height={20}
 			className={'absolute top-3 right-3 cursor-pointer'}
-			onClick={() => {
-				// TODO: delete thread
-				console.log('DELETE!!!')
-				router.push('/')
+			onClick={async () => {
+				await deleteThread(JSON.parse(threadId), pathname)
+				if (!parentId || !isComment) {
+					router.push('/')
+				}
 			}}
 		/>
 	)

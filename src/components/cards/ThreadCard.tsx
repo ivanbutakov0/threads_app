@@ -95,6 +95,8 @@ const ThreadCard = ({
 					currentUserId={currentUserId}
 					authorId={author.id}
 					isComment={isComment}
+					threadId={JSON.stringify(id)}
+					parentId={parentId}
 				/>
 			</div>
 			<div className='flex items-center gap-2 pl-1 mt-4'>

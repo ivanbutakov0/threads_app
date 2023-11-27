@@ -37,8 +37,6 @@ export default async function Home() {
 					</>
 				)}
 			</section>
-			{/* // TODO: delete below */}
-			{/* <UserButton afterSignOutUrl='/' /> */}
 		</>
 	)
 }
