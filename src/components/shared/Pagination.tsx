@@ -27,7 +27,7 @@ const Pagination = ({ path, pageNumber, isNext }: Props) => {
 		}
 	}
 
-	// if (!isNext && pageNumber === 1) return null
+	if (!isNext && pageNumber === 1) return null
 
 	return (
 		<div className='flex mt-10 items-center justify-center w-full gap-5'>
